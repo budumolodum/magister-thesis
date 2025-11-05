@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Підтвердження виходу";
+}
+
+<h2>Ви впевнені, що хочете вийти?</h2>
+
+<form asp-action="Logout" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger">Так, вийти</button>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">Скасувати</a>
+</form>

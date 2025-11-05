@@ -1,0 +1,38 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    ViewData["Title"] = "Додати працівника";
+}
+
+<h2>Додати працівника</h2>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Ім'я *</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label">Телефон</label>
+        <input asp-for="Phone" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" type="email" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Skills" class="form-label">Навички</label>
+        <textarea asp-for="Skills" class="form-control" rows="2"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Опис</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Створити</button>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

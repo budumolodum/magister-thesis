@@ -1,0 +1,36 @@
+﻿@model WebApplication1.Models.Project
+@{
+    ViewData["Title"] = "Видалити проєкт";
+}
+
+<h2>Видалити проєкт</h2>
+<h3>Ви впевнені?</h3>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Тип</dt>
+        <dd class="col-sm-10">@Model.Type</dd>
+        <dt class="col-sm-2">Ціна</dt>
+        <dd class="col-sm-10">@Model.Price.ToString("N0") грн</dd>
+        <dt class="col-sm-2">Замовник</dt>
+        <dd class="col-sm-10">@Model.Customer.Name</dd>
+        <dt class="col-sm-2">Завдань</dt>
+        <dd class="col-sm-10">@Model.Tasks.Count</dd>
+    </dl>
+
+    @if (Model.Tasks.Any())
+    {
+        <div class="alert alert-warning">
+            Увага: буде видалено @Model.Tasks.Count завдання(нь)!
+        </div>
+    }
+
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Видалити</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
+    </form>
+</div>

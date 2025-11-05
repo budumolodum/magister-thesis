@@ -1,0 +1,82 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Графік";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<!-- ДЕБАГ: Що приходить у ViewBag -->
+<div class="alert alert-info">
+    <strong>ДЕБАГ ViewBag:</strong><br>
+    Labels: <code>@(ViewBag.Labels == null ? "NULL" : string.Join(", ", (string[])ViewBag.Labels))</code><br>
+    Data: <code>@(ViewBag.Data == null ? "NULL" : string.Join(", ", (double[])ViewBag.Data))</code><br>
+    ChartType: <code>@(ViewBag.ChartType ?? "NULL")</code><br>
+    Label: <code>@(ViewBag.Label ?? "NULL")</code>
+</div>
+
+
+<!-- КАНВАС -->
+<canvas id="myChart" width="800" height="400"></canvas>
+
+<!-- ПОВІДОМЛЕННЯ -->
+@if (ViewBag.Labels == null || ViewBag.Data == null)
+{
+    <div class="alert alert-danger mt-3">
+        ПОМИЛКА: ViewBag.Labels або ViewBag.Data не передано!
+    </div>
+}
+else if (((System.Collections.IEnumerable)ViewBag.Labels).Cast<object>().Count() == 0)
+{
+    <div class="alert alert-info mt-3">
+        Немає даних для відображення.
+    </div>
+}
+
+<!-- КНОПКА НАЗАД -->
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js не завантажено!');
+                return;
+            }
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            // ДАНІ БЕЗПЕЧНО ЧЕРЕЗ 
+            const labels = @Html.Raw(Json.Serialize(ViewBag.Labels ?? new string[] { }));
+            const dataValues = @Html.Raw(Json.Serialize(ViewBag.Data ?? new double[] { }));
+            const chartType = '@(ViewBag.ChartType ?? "bar")';
+            const labelText = '@(ViewBag.Label ?? "Значення")';
+
+            // ПЕРЕВІРКА
+            if (!labels || !dataValues || labels.length === 0) {
+                console.warn('Немає даних');
+                return;
+            }
+
+            new Chart(ctx, {
+                type: chartType,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: labelText,
+                        data: dataValues,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        });
+    </script>
+}

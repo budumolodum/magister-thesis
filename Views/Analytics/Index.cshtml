@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Аналітика";
+}
+
+<h2>Аналітика даних</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Фінансовий аналіз</h4>
+        <a asp-action="ROIByType" class="btn btn-outline-primary m-1">Прибутковість типів</a>
+        <a asp-action="CustomerValue" class="btn btn-outline-primary m-1">Клієнти</a>
+        <a asp-action="CustomerMargin" class="btn btn-outline-primary m-1">Рентабельність</a>
+        <a asp-action="RevenueForecast" class="btn btn-outline-primary m-1">Прогноз доходу</a>
+    </div>
+    <div class="col-md-6">
+        <h4>Операційний аналіз</h4>
+        <a asp-action="TeamVelocity" class="btn btn-outline-success m-1">Продуктивність</a>
+        <a asp-action="Bottlenecks" class="btn btn-outline-success m-1">Вузькі місця</a>
+        <a asp-action="Seasonality" class="btn btn-outline-success m-1">Сезонність</a>
+        <a asp-action="AssignmentSuccess" class="btn btn-outline-success m-1">Ефективність призначення</a>
+        <a asp-action="ProjectRisk" class="btn btn-outline-danger m-1">Ризики проєктів</a>
+    </div>
+</div>

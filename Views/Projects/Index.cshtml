@@ -1,0 +1,98 @@
+﻿@model IEnumerable<WebApplication1.Models.Project>
+
+@{
+    ViewData["Title"] = "Проєкти";
+    var currentSearch = ViewData["CurrentSearch"] as string;
+    var currentCustomerId = ViewData["CurrentCustomerId"] as int?;
+    var currentSort = ViewData["CurrentSort"] as string;
+    string GetSortParam(string sort) => sort == currentSort ? sort + "_desc" : sort;
+}
+
+<h2>Проєкти</h2>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+            <label class="form-label">Пошук</label>
+            <input name="searchString" class="form-control" value="@currentSearch" placeholder="Назва, тип..." />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Замовник</label>
+            <select name="customerId" class="form-select" asp-items="ViewBag.Customers">
+                <option value="">Всі</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Фільтрувати</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Очистити</a>
+        </div>
+    </div>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Додати проєкт</a>
+</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                <a asp-route-sortOrder="@GetSortParam("name")"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-customerId="@currentCustomerId">
+                    Назва
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@GetSortParam("type")"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-customerId="@currentCustomerId">
+                    Тип
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@GetSortParam("price")"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-customerId="@currentCustomerId">
+                    Ціна
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@GetSortParam("customer")"
+                   asp-route-searchString="@currentSearch"
+                   asp-route-customerId="@currentCustomerId">
+                    Замовник
+                </a>
+            </th>
+            <th>Завдань</th>
+            <th>Дії</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Type</td>
+                <td>@item.Price.ToString("N0") грн</td>
+                <td>@item.Customer.Name</td>
+                <td>@item.Tasks.Count</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Деталі</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редагувати</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Немає проєктів.</div>
+}

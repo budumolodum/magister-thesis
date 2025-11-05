@@ -1,0 +1,55 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = ViewBag.Title ?? "Таблиця даних";
+
+    // Витягуємо першу колонку для заголовків
+    var items = (IEnumerable<object>)Model;
+    var firstItem = items?.FirstOrDefault();
+    var properties = firstItem?.GetType().GetProperties();
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model == null || !items.Any())
+{
+    <div class="alert alert-info">Немає даних для відображення.</div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                @if (ViewBag.Columns != null)
+                {
+                    foreach (var col in (IEnumerable<string>)ViewBag.Columns)
+                    {
+                        <th>@col</th>
+                    }
+                }
+                else if (properties != null)
+                {
+                    foreach (var prop in properties)
+                    {
+                        <th>@prop.Name</th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr>
+                    @if (properties != null)
+                    {
+                        foreach (var prop in properties)
+                        {
+                            <td>@prop.GetValue(item)</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Назад</a>

@@ -1,0 +1,43 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    ViewData["Title"] = "Деталі працівника";
+}
+
+<h2>Деталі працівника</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Телефон</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Навички</dt>
+        <dd class="col-sm-10"><pre>@Model.Skills</pre></dd>
+
+        <dt class="col-sm-2">Опис</dt>
+        <dd class="col-sm-10"><pre>@Model.Description</pre></dd>
+
+        <dt class="col-sm-2">Завдань</dt>
+        <dd class="col-sm-10">@Model.Tasks.Count</dd>
+    </dl>
+</div>
+
+@if (Model.Tasks.Any())
+{
+    <h5>Завдання:</h5>
+    <ul>
+        @foreach (var task in Model.Tasks)
+        {
+            <li>@task.Name (Проєкт: @task.Project.Name)</li>
+        }
+    </ul>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>

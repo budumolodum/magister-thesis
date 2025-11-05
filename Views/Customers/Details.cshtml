@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.Customer
+@{
+    ViewData["Title"] = "Деталі замовника";
+}
+
+<h2>Деталі замовника</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Телефон</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Проєктів</dt>
+        <dd class="col-sm-10">@Model.Projects.Count</dd>
+    </dl>
+</div>
+
+@if (Model.Projects.Any())
+{
+    <h5>Проєкти:</h5>
+    <ul>
+        @foreach (var project in Model.Projects)
+        {
+            <li>
+                <strong>@project.Name</strong> (@project.Type) — @project.Price грн
+                <small class="text-muted">— завдань: @project.Tasks.Count</small>
+            </li>
+        }
+    </ul>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>

@@ -1,0 +1,53 @@
+﻿@model WebApplication1.Models.Task
+@{
+    ViewData["Title"] = "Редагувати завдання";
+}
+
+<h2>Редагувати завдання</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Назва *</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Опис</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="Status" class="form-check-input" />
+        <label asp-for="Status" class="form-check-label">Виконано</label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EmployeeId" class="form-label">Працівник (необов’язково)</label>
+        <select asp-for="EmployeeId" class="form-select" asp-items="@(ViewData["EmployeeId"] as SelectList)">
+            <option value="">— Без працівника —</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProjectId" class="form-label">Проєкт *</label>
+        <select asp-for="ProjectId" class="form-select" asp-items="@(ViewData["ProjectId"] as SelectList)" required>
+            <option value="">— Оберіть проєкт —</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="StartDate" class="form-label">Дата початку</label>
+        <input asp-for="StartDate" class="form-control" type="date" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EndDate" class="form-label">Дата завершення</label>
+        <input asp-for="EndDate" class="form-control" type="date" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

@@ -1,0 +1,36 @@
+﻿@model WebApplication1.Models.Project
+@{
+    ViewData["Title"] = "Редагувати проєкт";
+}
+
+<h2>Редагувати проєкт</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Назва *</label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Type" class="form-label">Тип *</label>
+        <input asp-for="Type" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label">Ціна *</label>
+        <input asp-for="Price" class="form-control" type="number" min="0" required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Замовник *</label>
+        <select name="CustomerId" class="form-select" asp-items="@(ViewData["CustomerId"] as SelectList)" required>
+            <option value="">— Оберіть замовника —</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

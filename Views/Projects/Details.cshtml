@@ -1,0 +1,49 @@
+﻿@model WebApplication1.Models.Project
+@{
+    ViewData["Title"] = "Деталі проєкту";
+}
+
+<h2>Деталі проєкту</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Тип</dt>
+        <dd class="col-sm-10">@Model.Type</dd>
+
+        <dt class="col-sm-2">Ціна</dt>
+        <dd class="col-sm-10">@Model.Price.ToString("N0") грн</dd>
+
+        <dt class="col-sm-2">Замовник</dt>
+        <dd class="col-sm-10">@Model.Customer.Name</dd>
+
+        <dt class="col-sm-2">Завдань</dt>
+        <dd class="col-sm-10">@Model.Tasks.Count</dd>
+    </dl>
+</div>
+
+@if (Model.Tasks.Any())
+{
+    <h5>Завдання:</h5>
+    <ul>
+        @foreach (var task in Model.Tasks)
+        {
+            <li>
+                <strong>@task.Name</strong>
+                @if (task.Employee != null)
+                {
+                    <span class="text-muted">— @task.Employee.Name</span>
+                }
+                <span class="badge @(task.Status ? "bg-success" : "bg-secondary")">
+                    @(task.Status ? "Виконано" : "В процесі")
+                </span>
+            </li>
+        }
+    </ul>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Редагувати</a>
+    <a asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>
